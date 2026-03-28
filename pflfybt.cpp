@@ -76,8 +76,8 @@ int main() {
     bool sorted1 = is_sorted(words1.begin(), words1.end(), comp);
     bool sorted2 = is_sorted(words2.begin(), words2.end(), comp);
 
-    cout << "[Отладка] Файл 1 отсортирован: " << (sorted1 ? "Да" : "НЕТ") << endl;
-    cout << "[Отладка] Файл 2 отсортирован: " << (sorted2 ? "Да" : "НЕТ") << endl;
+    cout << " Файл 1 отсортирован: " << (sorted1 ? "Да" : "НЕТ") << endl;
+    cout << " Файл 2 отсортирован: " << (sorted2 ? "Да" : "НЕТ") << endl;
 
    
 
