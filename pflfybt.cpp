@@ -36,13 +36,9 @@ string getFilePath(const string& prompt) {
     }
 }
 vector<string> readAllWords(const string& path) {
-    vector<string> words;
     ifstream fin(path);
-    string word;
-    while (fin >> word) {
-        words.push_back(word);
-    }
-    return words;
+    return vector<string>(istream_iterator<string>(fin),
+        istream_iterator<string>());
 }
 
 int main() {
@@ -79,7 +75,7 @@ int main() {
     cout << " Файл 1 отсортирован: " << (sorted1 ? "Да" : "НЕТ") << endl;
     cout << " Файл 2 отсортирован: " << (sorted2 ? "Да" : "НЕТ") << endl;
 
-   
+
 
     cout << "\n=== Результат объединения ===" << endl;
 
