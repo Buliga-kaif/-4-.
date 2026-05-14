@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -5,6 +6,7 @@
 #include <algorithm>
 #include <vector>
 #include <clocale>
+#include <cstdlib> 
 
 using namespace std;
 
@@ -19,22 +21,22 @@ struct WordComparator {
 
 string getFilePath(const string& prompt) {
     string path;
-    while (true) {
-        cout << prompt;
-        getline(cin, path);
+    cout << prompt;
+    getline(cin, path);
 
-        if (!path.empty() && path.front() == '"') path.erase(0, 1);
-        if (!path.empty() && path.back() == '"') path.pop_back();
+   
+    if (!path.empty() && path.front() == '"') path.erase(0, 1);
+    if (!path.empty() && path.back() == '"') path.pop_back();
 
-        ifstream test(path);
-        if (test.good()) {
-            return path;
-        }
-        else {
-            cerr << "Ошибка: файл не найден. Попробуйте снова." << endl;
-        }
+    ifstream test(path);
+    if (test.good()) {
+        return path;
+    } else {
+        cerr << "Ошибка: файл не найден или путь неверен. Завершение работы." << endl;
+        exit(EXIT_FAILURE); 
     }
 }
+
 vector<string> readAllWords(const string& path) {
     ifstream fin(path);
     return vector<string>(istream_iterator<string>(fin),
@@ -49,14 +51,6 @@ int main() {
     string file1_path = getFilePath("Введите путь к первому файлу: ");
     string file2_path = getFilePath("Введите путь ко второму файлу: ");
 
-    ifstream fin1(file1_path);
-    ifstream fin2(file2_path);
-
-    if (!fin1.is_open() || !fin2.is_open()) {
-        cerr << "Ошибка открытия файлов!" << endl;
-        return 1;
-    }
-
     vector<string> words1 = readAllWords(file1_path);
     vector<string> words2 = readAllWords(file2_path);
 
@@ -64,8 +58,8 @@ int main() {
     cout << "[Отладка] Файл 2: " << words2.size() << " слов(а)" << endl;
 
     if (words1.empty() && words2.empty()) {
-        cerr << "Оба файла пустые!" << endl;
-        return 1;
+        cerr << "Оба файла пустые! Завершение работы." << endl;
+        return EXIT_FAILURE;
     }
 
     WordComparator comp;
@@ -75,14 +69,16 @@ int main() {
     cout << " Файл 1 отсортирован: " << (sorted1 ? "Да" : "НЕТ") << endl;
     cout << " Файл 2 отсортирован: " << (sorted2 ? "Да" : "НЕТ") << endl;
 
-
-
     cout << "\n=== Результат объединения ===" << endl;
 
-    fin1.clear();
-    fin1.seekg(0, ios::beg);
-    fin2.clear();
-    fin2.seekg(0, ios::beg);
+   
+    ifstream fin1(file1_path);
+    ifstream fin2(file2_path);
+
+    if (!fin1.is_open() || !fin2.is_open()) {
+        cerr << "Ошибка открытия файлов! Завершение работы." << endl;
+        return EXIT_FAILURE;
+    }
 
     istream_iterator<string> it1_begin(fin1);
     istream_iterator<string> it1_end;
