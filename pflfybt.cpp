@@ -9,8 +9,19 @@
 #include <cstdlib> 
 
 using namespace std;
-
+/**
+ * @brief Функтор для сравнения слов.
+ *
+ * Сравнивает слова сначала по длине (в порядке возрастания),
+ * а при равной длине — лексикографически.
+ */
 struct WordComparator {
+ /**
+     * @brief Оператор сравнения двух строк.
+     * @param a Первое слово.
+     * @param b Второе слово.
+     * @return true, если @p a должно идти перед @p b.
+     */
     bool operator()(const string& a, const string& b) const {
         if (a.length() != b.length()) {
             return a.length() < b.length();
@@ -18,7 +29,17 @@ struct WordComparator {
         return a < b;
     }
 };
-
+/**
+ * @brief Запрашивает у пользователя путь к файлу.
+ *
+ * Читает путь из стандартного ввода, удаляет лишние кавычки
+ * (если путь был перетащен в консоль) и проверяет существование файла.
+ *
+ * @param prompt Текст приглашения для ввода.
+ * @return std::string Проверенный путь к существующему файлу.
+ *
+ * @note В случае ошибки программа завершается с кодом EXIT_FAILURE.
+ */
 string getFilePath(const string& prompt) {
     string path;
     cout << prompt;
@@ -36,13 +57,28 @@ string getFilePath(const string& prompt) {
         exit(EXIT_FAILURE); 
     }
 }
-
+/**
+ * @brief Считывает все слова из файла.
+ *
+ * Использует istream_iterator для чтения слов, разделённых
+ * любыми пробельными символами (пробел, табуляция, перевод строки).
+ *
+ * @param path Путь к файлу.
+ * @return std::vector<std::string> Вектор, содержащий все слова файла.
+ */
 vector<string> readAllWords(const string& path) {
     ifstream fin(path);
     return vector<string>(istream_iterator<string>(fin),
         istream_iterator<string>());
 }
-
+/**
+ * @brief Главная функция программы.
+ *
+ * Объединяет два отсортированных текстовых файла в одну
+ * отсортированную последовательность слов.
+ *
+ * @return int Код завершения программы (0 — успех).
+ */
 int main() {
     setlocale(LC_ALL, "Russian");
 
