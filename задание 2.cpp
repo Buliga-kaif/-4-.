@@ -22,7 +22,7 @@ std::list<int> readListFromKeyboard() {
     std::cout << "Введите элементы списка (целые числа через пробел): ";
     if (std::getline(std::cin, line)) {
         std::istringstream iss(line);
-        int val;
+        int val = 0;
         while (iss >> val) {
             L.push_back(val);
         }
